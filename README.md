@@ -29,12 +29,13 @@ The agent will:
 
 ```
 weekend-wizard/
-├── README.md              # This file
-├── server_fun.py          # MCP server with tools
-├── agent_fun.py           # Agent client with ReAct loop
-├── test_agent.py          # Automated test script
-├── .gitignore             # Git ignore file
-└── requirements.txt       # Python dependencies
+├── README.md                # This file
+├── OLLAMA_INSTALL_GUIDE.md  # Ollama setup instructions
+├── server_fun.py            # MCP server with tools
+├── agent_fun.py             # Agent client with ReAct loop
+├── DemoTranscript.txt       # Sample session transcript
+├── .gitignore               # Git ignore file
+└── requirements.txt         # Python dependencies
 ```
 
 ## Prerequisites

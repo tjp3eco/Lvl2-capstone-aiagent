@@ -235,7 +235,7 @@ To give the final answer (answer MUST be a friendly text string with REAL data, 
 - book_recs(topic: str, limit: int) — book recommendations for a topic
 - random_joke() — a safe one-liner joke  (use empty args: {})
 - random_dog() — random dog image URLs  (use empty args: {})
-- trivia() — one multiple-choice trivia question (use empty args: {})
+- trivia() — one trivia question (use empty args: {})
 
 ## Example turn sequence
 

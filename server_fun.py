@@ -9,7 +9,17 @@ from typing import Optional, Dict, Any, List
 import requests
 import html
 import time
-import urllib3
+import random
+import os
+
+# ---------------------------------------------------------------------------
+# SSL verification is disabled because common deployment environments
+# (corporate proxies, educational networks) re-sign TLS certificates,
+# causing validation failures with Python's bundled CA store.
+# All APIs used are public, free, and return non-sensitive data.
+# To enable strict verification: set environment variable VERIFY_SSL=true
+# ---------------------------------------------------------------------------
+VERIFY_SSL = os.environ.get("VERIFY_SSL", "false").lower() in ("1", "true", "yes")
 
 
 # Initialize MCP server
@@ -42,7 +52,7 @@ def _request_with_retry(
     last_error = None
     for attempt in range(max_retries + 1):
         try:
-            r = requests.get(url, params=params, timeout=timeout, verify=False)
+            r = requests.get(url, params=params, timeout=timeout, verify=VERIFY_SSL)
 
             # Retry on rate limit (429) or server errors (5xx)
             if r.status_code == 429 or r.status_code >= 500:
@@ -96,7 +106,6 @@ def get_weather(latitude: float, longitude: float) -> Dict[str, Any]:
 
     try:
         r = _request_with_retry(url, params=params)
-        r.raise_for_status()
         current = r.json().get("current", {})
 
         # Map weather code to condition string
@@ -204,7 +213,6 @@ def random_joke() -> Dict[str, Any]:
             "I told my computer I needed a break, and now it won't stop sending me Kit-Kats.",
             "Why did the scarecrow win an award? He was outstanding in his field!"
         ]
-        import random
         return {"joke": random.choice(fallbacks), "note": "Fallback joke used"}
 
 
@@ -260,7 +268,7 @@ def random_dog(count: int = 3) -> Dict[str, Any]:
 @mcp.tool()
 def trivia() -> Dict[str, Any]:
     """
-    Get one multiple-choice trivia question.
+    Get one trivia question.
 
     Returns:
         Dictionary with question, options, and correct answer
@@ -284,7 +292,6 @@ def trivia() -> Dict[str, Any]:
         incorrect = [html.unescape(x) for x in q.get("incorrect_answers", [])]
 
         # Combine and shuffle options
-        import random
         all_options = incorrect + [correct]
         random.shuffle(all_options)
 
