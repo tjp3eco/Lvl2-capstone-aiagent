@@ -199,7 +199,7 @@ def print_help():
   Give me a trivia question and a dog pic.
   Suggest 3 sci-fi books and tell me a joke.
 
-{C_DIM}Tip: The agent remembers context within a session. Ask follow-up questions!{C_RESET}
+
 """)
 
 
